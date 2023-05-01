@@ -13,7 +13,6 @@ from torchvision import transforms
 from torchvision.datasets import MNIST
 from torch.utils.data import DataLoader
 from models.cnn import CNN, DeepCNN
-from models.resnet import ResNet
 from utils._model import SaveBestModel, EarlyStopping
 from torch.optim.lr_scheduler import StepLR
 
@@ -135,7 +134,7 @@ if __name__ == "__main__":
     parser.set_defaults(epochs=50, lr=1e-03, batch_size=32, scheduler_gamma=0.001, tolerance=5, scheduler_step=5)
     args = parser.parse_args()
 
-    _valid_model_names = ["cnn", "deep_cnn", "resnet"]
+    _valid_model_names = ["cnn", "deep_cnn"]
     # Validating the passed arguments
     assert args.epochs > 0, "Please enter a valid value for epochs."
     assert args.lr > 0, "Please enter a valid value for learning rate."
@@ -190,8 +189,6 @@ if __name__ == "__main__":
         model = CNN().to(device)
     elif args.model_name == "deep_cnn":
         model = DeepCNN().to(device)
-    elif args.model_name == "resnet":
-        model = ResNet().to(device)
 
     optimizer = torch.optim.Adam(params=model.parameters(), lr=args.lr, eps=1e-07)
     loss = nn.CrossEntropyLoss()
